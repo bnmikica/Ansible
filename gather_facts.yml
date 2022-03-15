@@ -1,0 +1,19 @@
+#!/usr/bin/env ansible-playbook
+---
+ 
+- hosts: XE_Router
+  connection: network_cli
+  gather_facts: no
+
+  tasks:
+   
+  - name: Hole facts
+    ios_facts:
+
+  - name: Debug OS Version
+    debug: 
+      var: ansible_net_version
+
+  - name: Debug Hostname
+    debug: 
+      var: ansible_net_hostname

@@ -1,0 +1,4 @@
+---
+
+snmp:
+    community: "STRENG-GEHEIM"

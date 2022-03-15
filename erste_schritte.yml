@@ -1,0 +1,56 @@
+#!/usr/bin/env ansible-playbook
+---
+ 
+- hosts: XE_Router
+  connection: network_cli
+  gather_facts: no
+
+  tasks:
+   
+  # - name: Mache show version
+  #   ios_command:
+  #     commands:
+  #       - show version
+  #   register: output_var
+
+  # - name: Debug
+  #   debug: 
+  #     var: output_var.stdout.0
+
+  # - name: Test_Version
+  #   assert:
+  #     that: "'Version 17.05' in output_var.stdout[0]"
+
+  # - name: SNMP Read Config
+  #   ios_config:
+  #     commands:
+  #       - snmp-server community public ro
+
+  # - name: save config
+  #   ios_command:
+  #     commands:
+  #       - wr mem
+
+  - name: Ermittle Hostnamen
+    ios_command:
+      commands:
+        - show runn | inc hostname
+    register: host_namen
+
+  - name: List hostnames
+    debug: 
+      var: host_namen.stdout[0]
+
+  # - name: SNMP Write 
+  #   ios_config:
+  #     commands:
+  #       - snmp-server community GEHEIM_mikica rw
+  #   when: "'103' in host_namen.stdout[0]"
+
+  - name: SNMP Write 
+    ios_config:
+      commands:
+        - no snmp-server community GEHEIM_mikica rw
+        - snmp-server community {{snmp.community}} rw
+    when: "'103' in host_namen.stdout[0]"
+
